@@ -1,0 +1,37 @@
+{% extends 'catalog/base.html' %}
+{% block title %}Главная{% endblock %}
+{% include 'catalog/includes/inc_menu.html' %}
+
+{% block content %}
+    <div class="container-fluid p-4">
+        <h1 class="mb-4 d-flex justify-content-center">Главная</h1>
+        <p class="d-flex justify-content-center">Добро пожаловать, приятных покупок!</p>
+
+        <div class="row">
+            {% for product in products %}
+                <!-- Карточка товара -->
+                <div class="col-md-3 mb-4">
+                    <div class="card h-100">
+                        <!-- Изображение одинакового размера -->
+                        {% if product.image %}
+                            <img src="{{ product.image.url }}" 
+                                 alt="{{ product.name }}" 
+                                 style="height: 250px; object-fit: cover; width: 100%; object-position: center;">
+                        {% else %}
+                            <img src="https://via.placeholder.com/300x250?text=Нет+фото" 
+                                 alt="Нет изображения" 
+                                 style="height: 250px; object-fit: cover; width: 100%; object-position: center;">
+                        {% endif %}
+
+                        <div class="card-body text-center d-flex flex-column">
+                            <h5 class="card-title">{{ product.name }}</h5>
+                            <h2>{{ product.purchase_price }} руб.</h2>
+                            <p>{{ product.description|truncatechars:100 }}</p>
+                            <button class="btn btn-danger w-100 mt-auto" onclick="window.location='{% url 'catalog:product' pk=product.pk %}'">Купить</button>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

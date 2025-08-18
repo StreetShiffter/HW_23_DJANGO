@@ -1,0 +1,51 @@
+{% extends 'catalog/base.html' %}
+
+{% block title %}Контакты{% endblock %}
+{% include 'catalog/includes/inc_menu.html' %}
+
+{% block content %}
+
+    <div class="container-fluid p-4">
+        <h1 class="my-4 mt-0 d-flex justify-content-center">Контакты</h1>
+        <div class="row d-flex p-4 ms-2 justify-content-center" style="margin-left: 200px">
+            <!-- Форма -->
+            <div class="col-md-6 bg-light p-3 rounded">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Имя</label>
+                        <input type="text" class="form-control" id="name" name="name" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Почта</label>
+                        <div class="input-group">
+                            <span class="input-group-text">@</span>
+                            <input type="email" class="form-control" id="email" name="email" required />
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="message" class="form-label">Сообщение</label>
+                        <textarea class="form-control" id="message" name="message" rows="3" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-danger">Отправить</button>
+                </form>
+            </div>
+
+            <!-- Информация о контактах -->
+            <div class="col-md-6 p-3">
+                <h4>Наши контакты</h4>
+                Контакты — ООО «Рога и копыта»<br>
+                Свяжитесь с нами, чтобы узнать больше о наших услугах или задать вопросы.<br>
+                Адрес: г. Москва, ул. Вымышленная, д. 123<br>
+                Телефон: +7 (495) 123-45-67<br>
+                Email: info@rogaikopyta.ru<br>
+                Время работы: Пн–Пт, с 9:00 до 18:00<br>
+                <br>
+                <p>Мы всегда на связи и рады помочь!</p>
+                <p>
+                    ⚠️ Все товары являются вымышленными ⚠️
+                </p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

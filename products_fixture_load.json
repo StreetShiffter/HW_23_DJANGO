@@ -1,0 +1,12 @@
+[
+    {
+        "model": "catalog.products",
+        "fields": {
+            "name": "Tefal FV1R10F1",
+            "description": "Утюг",
+            "image": "",
+            "category": 2,
+            "purchase_price": 2000
+        }
+    }
+]

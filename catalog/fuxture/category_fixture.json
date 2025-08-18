@@ -1,0 +1,26 @@
+[
+{
+    "model": "catalog.category",
+    "pk": 1,
+    "fields": {
+        "name": "Электроника",
+        "description": "Смартфоны, планшеты, ноутбуки"
+    }
+},
+{
+    "model": "catalog.category",
+    "pk": 2,
+    "fields": {
+        "name": "Бытовая техника",
+        "description": "Телевизоры, холодильники, пылесосы"
+    }
+},
+{
+    "model": "catalog.category",
+    "pk": 3,
+    "fields": {
+        "name": "Садовая техника",
+        "description": "Бензопилы, культиваторы, тримеры"
+    }
+}
+]

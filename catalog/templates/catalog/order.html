@@ -1,0 +1,93 @@
+{% extends 'catalog/base.html' %}
+
+{% block title %}Каталог{% endblock %}
+ {% include 'catalog/includes/inc_menu.html' %}
+         {% include 'catalog/includes/inc_menu.html' %}
+        <!-- Основное содержимое -->
+{% block content %}
+        <div class="container-fluid p-4 ">
+            <h1 class="mb-4 d-flex justify-content-center">Каталог</h1>
+            <div class="row d-flex p-4 ms-4 justify-content-center" style="margin-left: 200px">
+                <div class="col-11">
+                    <!-- Cards -->
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="col-md-6 col-lg-12 mb-4">
+                                <div class="card">
+                                    <div class="card-img-top bg-secondary text-white text-center py-5">ФОТО</div>
+                                    <div class="card-body">
+                                        <p class="card-text">This is a wider card with supporting text below as a
+                                            natural lead-in to additional content.
+                                            This content is a little bit longer.</p>
+                                        <div class="d-flex justify-content-between">
+                                            <div>
+                                                <button class="btn btn-outline-primary btn-sm">View</button>
+                                                <button class="btn btn-outline-secondary btn-sm">Edit</button>
+                                            </div>
+                                            <small class="text-body-secondary">10 mins</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Дублируем карточки -->
+                            <div class="col-md-6 col-lg-12 mb-4">
+                                <div class="card">
+                                    <div class="card-img-top bg-secondary text-white text-center py-5">ФОТО</div>
+                                    <div class="card-body">
+                                        <p class="card-text">This is a wider card with supporting text below as a
+                                            natural lead-in to additional content.
+                                            This content is a little bit longer.</p>
+                                        <div class="d-flex justify-content-between">
+                                            <div>
+                                                <button class="btn btn-outline-primary btn-sm">View</button>
+                                                <button class="btn btn-outline-secondary btn-sm">Edit</button>
+                                            </div>
+                                            <small class="text-body-secondary">3 mins</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <!-- Вторая колонка-->
+                            <div class="col-md-6 col-lg-12 mb-4">
+                                <div class="card">
+                                    <div class="card-img-top bg-secondary text-white text-center py-5">ФОТО</div>
+                                    <div class="card-body">
+                                        <p class="card-text">This is a wider card with supporting text below as a
+                                            natural lead-in to additional content.
+                                            This content is a little bit longer.</p>
+                                        <div class="d-flex justify-content-between">
+                                            <div>
+                                                <button class="btn btn-outline-primary btn-sm">View</button>
+                                                <button class="btn btn-outline-secondary btn-sm">Edit</button>
+                                            </div>
+                                            <small class="text-body-secondary">7 mins</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-12 mb-4">
+                                <div class="card">
+                                    <div class="card-img-top bg-secondary text-white text-center py-5">ФОТО</div>
+                                    <div class="card-body">
+                                        <p class="card-text">This is a wider card with supporting text below as a
+                                            natural lead-in to additional content.
+                                            This content is a little bit longer.</p>
+                                        <div class="d-flex justify-content-between">
+                                            <div>
+                                                <button class="btn btn-outline-primary btn-sm">View</button>
+                                                <button class="btn btn-outline-secondary btn-sm">Edit</button>
+                                            </div>
+                                            <small class="text-body-secondary">1 mins</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-2"></div>
+            </div>
+        </div>
+{% endblock %}

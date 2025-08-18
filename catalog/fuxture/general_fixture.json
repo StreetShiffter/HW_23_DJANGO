@@ -1,0 +1,130 @@
+[
+{
+    "model": "catalog.products",
+    "pk": 1,
+    "fields": {
+        "name": "Iphone 16 PRO",
+        "description": "Смартфон американский",
+        "image": "",
+        "category": 1,
+        "purchase_price": 130000,
+        "created_at": "2025-07-21T18:38:48.005Z",
+        "updated_at": "2025-07-21T18:38:48.005Z"
+    }
+},
+{
+    "model": "catalog.products",
+    "pk": 2,
+    "fields": {
+        "name": "Xiaomi MI 12",
+        "description": "Смартфон китайский",
+        "image": "",
+        "category": 1,
+        "purchase_price": 60000,
+        "created_at": "2025-07-21T18:40:48.529Z",
+        "updated_at": "2025-07-21T18:40:48.529Z"
+    }
+},
+{
+    "model": "catalog.products",
+    "pk": 3,
+    "fields": {
+        "name": "Samsung s22 Ultra",
+        "description": "Смартфон корейский",
+        "image": "",
+        "category": 1,
+        "purchase_price": 98000,
+        "created_at": "2025-07-21T18:41:42.562Z",
+        "updated_at": "2025-07-21T18:41:42.562Z"
+    }
+},
+{
+    "model": "catalog.products",
+    "pk": 4,
+    "fields": {
+        "name": "Haier 55 Smart tv S2",
+        "description": "LED телевизор смарт",
+        "image": "",
+        "category": 2,
+        "purchase_price": 28000,
+        "created_at": "2025-07-21T18:46:32.631Z",
+        "updated_at": "2025-07-21T18:46:32.631Z"
+    }
+},
+{
+    "model": "catalog.products",
+    "pk": 6,
+    "fields": {
+        "name": "Ginzzu VS437 2400",
+        "description": "Пылесос",
+        "image": "",
+        "category": 2,
+        "purchase_price": 4800,
+        "created_at": "2025-07-21T18:49:31.480Z",
+        "updated_at": "2025-07-21T18:49:31.480Z"
+    }
+},
+{
+    "model": "catalog.products",
+    "pk": 7,
+    "fields": {
+        "name": "Huter GMC-28/24",
+        "description": "Культиватор",
+        "image": "",
+        "category": 3,
+        "purchase_price": 12400,
+        "created_at": "2025-07-21T18:52:24.763Z",
+        "updated_at": "2025-07-21T18:52:24.763Z"
+    }
+},
+{
+    "model": "catalog.products",
+    "pk": 8,
+    "fields": {
+        "name": "РЫСЬ ПЦБ 5220",
+        "description": "Бензопила",
+        "image": "",
+        "category": 3,
+        "purchase_price": 5900,
+        "created_at": "2025-07-21T18:54:20.622Z",
+        "updated_at": "2025-07-21T18:54:20.622Z"
+    }
+},
+{
+    "model": "catalog.products",
+    "pk": 9,
+    "fields": {
+        "name": "СТАВР ТБ-1600",
+        "description": "Тример садовый(бензиновый)",
+        "image": "",
+        "category": 3,
+        "purchase_price": 3800,
+        "created_at": "2025-07-21T18:55:39.894Z",
+        "updated_at": "2025-07-21T18:55:39.894Z"
+    }
+},
+{
+    "model": "catalog.category",
+    "pk": 1,
+    "fields": {
+        "name": "Электроника",
+        "description": "Смартфоны, планшеты, ноутбуки"
+    }
+},
+{
+    "model": "catalog.category",
+    "pk": 2,
+    "fields": {
+        "name": "Бытовая техника",
+        "description": "Телевизоры, холодильники, пылесосы"
+    }
+},
+{
+    "model": "catalog.category",
+    "pk": 3,
+    "fields": {
+        "name": "Садовая техника",
+        "description": "Бензопилы, культиваторы, тримеры"
+    }
+}
+]
