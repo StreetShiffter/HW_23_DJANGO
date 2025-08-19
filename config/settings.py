@@ -125,7 +125,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-AUTH_USER_MODEL = 'users.User'
+AUTH_USER_MODEL = 'users.User'# Указываем кастомную модель для уинтификации
 
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend' #Настройки почты
 # EMAIL_HOST = 'smtp.yandex.ru'
@@ -138,4 +138,4 @@ AUTH_USER_MODEL = 'users.User'
 
 LOGIN_REDIRECT_URL = ''# Редирект после логирования(имя приложения и имя в url)
 LOGOUT_REDIRECT_URL = 'catalog:contacts'# Редирект после выхода(имя приложения и имя в url )
-# LOGIN_URL = '/login/'# Редирект на страницу регистрации, если вьюшка защищена миксином LoginRequiredMixin
+# LOGIN_URL = 'user:register'# Редирект на страницу регистрации, если вьюшка защищена миксином LoginRequiredMixin
