@@ -3,6 +3,7 @@ from django.core.validators import EmailValidator, MaxLengthValidator
 from django.db import models
 
 class User(AbstractUser):
+    '''Кастомная модель пользователя'''
     username = None
     email = models.EmailField(unique=True, verbose_name='Электронная почта',validators=[EmailValidator()])
     image = models.ImageField(upload_to='images/', verbose_name='Аватар', null=True, blank=True)
