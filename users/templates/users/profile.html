@@ -1,14 +1,15 @@
 {% extends 'catalog/base.html' %}
-{% block title %}Профиль{% endblock %}
+{% block title %}{{ "Профиль" }}{% endblock %}
+
+{% include 'catalog/includes/inc_menu.html' %}
 
 {% block content %}
-{% include 'catalog/includes/inc_menu.html' %}
 
 <div class="card">
     <div class="card-body">
-        <h3>Профиль пользователя</h3>
-        <p><strong>Имя пользователя:</strong> {{ user.username }}</p>
+        <h3>Профиль пользователя {{ user.email }}</h3>
         <p><strong>Email:</strong> {{ user.email }}</p>
+            <a href="{% url 'users:profile_edit' %}" class="btn btn-warning">Редактировать</a>
     </div>
 </div>
 {% endblock %}
