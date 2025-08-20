@@ -15,17 +15,18 @@ from .models import User
 
 
 class UserRegisterView(CreateView):
+    '''Контроллер регистрации пользователя'''
     form_class = CustomUserCreationForm
     template_name = 'users/register.html'
     success_url = reverse_lazy('users:profile')
 
     def form_valid(self, form):
         user = form.save()
-        user.is_active = False
-        token = secrets.token_hex(16)
+        user.is_active = False # Деактивируем
+        token = secrets.token_hex(16) # Генерация токена
         user.token = token
         user.save()
-        host = self.request.get_host()
+        host = self.request.get_host() 
         url = f"http://{host}/users/email-confirm/{token}/"
         send_mail(
             subject="Подтверждение почты",
@@ -37,17 +38,37 @@ class UserRegisterView(CreateView):
 
 
 def email_verification(request, token):
-    '''Проверка токена и перенаправление с почты(путь в urls)'''
+    '''Проверка токена и перенаправление с почты на страницу логирования(путь в urls)'''
     user = get_object_or_404(User, token=token)
     user.is_active = True
     user.save()
     return redirect(reverse("users:loging"))
 
+# def email_verification(request, token):
+#     user = get_object_or_404(User, token=token)
+    
+#     if user.is_active:
+#         # Уже активен — просто перенаправляем
+#         return redirect('users:login')
+
+#     # Активируем
+#     user.is_active = True
+#     user.token = None # Обнуляем токен, что бы можно было восстановить парол по новому токену
+#     user.save()
+
+#     # Можно добавить сообщение на странице логина
+#     from django.contrib import messages
+#     messages.success(request, 'Email подтверждён! Теперь можно войти.')
+
+#     return redirect('users:login')
+        
 class UserProfileView(View):
+    '''Вьюшка кабинета пользователя'''
     def get(self, request):
         return render(request, 'users/profile.html')
 
 class UserProfileEditView(LoginRequiredMixin, UpdateView):
+    '''Вьюшка редактирования кабинета пользователя(LoginRequiredMixi защищает от неавторизованности)'''
     model = User
     form_class = UserProfileForm
     template_name = 'users/profile_edit.html'
@@ -58,7 +79,6 @@ class UserProfileEditView(LoginRequiredMixin, UpdateView):
 
 
 class CustomLoginView(LoginView):
-    template_name = 'users/loging.html'
     '''Контроллер входа в профиль'''
     template_name = 'users/loging.html'
     success_url = reverse_lazy('users:profile')
