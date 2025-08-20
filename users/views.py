@@ -79,6 +79,6 @@ class UserProfileEditView(LoginRequiredMixin, UpdateView):
 
 
 class CustomLoginView(LoginView):
-    '''Контроллер входа в профиль'''
+    '''Контроллер входа в профиль (Использует AuthiticationCreateForm по умолчанию)'''
     template_name = 'users/loging.html'
     success_url = reverse_lazy('users:profile')
