@@ -1,7 +1,13 @@
+from django.conf import settings
+from django.conf.urls.static import static
 from django.contrib.auth.views import LogoutView
 from django.urls import path
 from users.apps import UsersConfig
-from .views import CustomLoginView, UserRegisterView, UserProfileView, UserProfileEditView, email_verification
+from .views import (CustomLoginView,
+                    UserRegisterView,
+                    UserProfileView,
+                    UserProfileEditView,
+                    email_verification)
 
 app_name = UsersConfig.name
 
@@ -13,3 +19,6 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(), name="logout"),
     path('email-confirm/<str:token>/', email_verification, name="email-confirm"),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

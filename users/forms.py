@@ -21,6 +21,20 @@ class CustomUserCreationForm(UserCreationForm):
         if 'username' in self.fields:
             del self.fields['username']
 
+            self.fields['email'].widget.attrs.update({
+                'class': 'form-control',
+                'placeholder': 'Имя товара'})
+
+            self.fields['image'].widget.attrs.update({
+                'class': 'form-control',
+                'placeholder': 'Имя товара'})
+
+            self.fields['country'].widget.attrs.update({
+                'class': 'form-control',
+                'placeholder': 'Имя товара'})
+
+
+
     def clean_phone(self):
         phone = self.cleaned_data.get('phone')
         if phone and not phone.isdigit():
@@ -49,6 +63,30 @@ class UserProfileForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['email', 'phone', 'country', 'image']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        # Обновляем атрибуты полей
+        self.fields['email'].widget.attrs.update({
+            'class': 'form-control',
+            'placeholder': 'Введите email'
+        })
+
+        self.fields['phone'].widget.attrs.update({
+            'class': 'form-control',
+            'placeholder': 'Введите телефон'
+        })
+
+        self.fields['country'].widget.attrs.update({
+            'class': 'form-control',
+            'placeholder': 'Введите страну'
+        })
+
+        self.fields['image'].widget.attrs.update({
+            'class': 'form-control',
+            'placeholder': 'Загрузите изображение'
+        })
 
     def clean_phone(self):
         phone = self.cleaned_data.get('phone')

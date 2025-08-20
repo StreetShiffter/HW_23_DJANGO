@@ -132,8 +132,8 @@ EMAIL_HOST = 'smtp.yandex.ru'
 EMAIL_PORT = 465
 EMAIL_USE_TLS = False
 EMAIL_USE_SSL = True
-EMAIL_HOST_USER = 'gordievsky.andrey@yandex.ru'#os.getenv('MAIL_HOST')
-EMAIL_HOST_PASSWORD = 'adrjfjigrvdcgggc'#os.getenv('MAIL_PASSWORD')
+EMAIL_HOST_USER = os.getenv('MAIL_HOST')
+EMAIL_HOST_PASSWORD = os.getenv('MAIL_PASSWORD')
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 

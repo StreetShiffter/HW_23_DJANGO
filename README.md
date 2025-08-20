@@ -76,14 +76,7 @@ CTRL+С # Отключение сервера
 # Структура проекта
 ```
 HW_22_Django/
-├── 📁 blog/ # Приложение Django
-│ ├── 📁 migrations/
-│ ├── 📁 templates/ # Шаблоны HTML
-│ │ ├── 📊 base.html
-│ │ ├── 📊 blogpost_confirm_delete.html
-│ │ └── 📊 blogpost_detail.html
-│ │ └── 📊 blogpost_form.html 
-│ │ └── 📊 blogpost_list.html 
+
 ├── 📁 catalog/ # Приложение Django
 │ ├── 📁 fixture/ # Сгенерированые фикстуры БД
 │ ├── 📁 migrations/ # Миграции базы данных
@@ -119,6 +112,24 @@ HW_22_Django/
 ├── 📁 media/# Изображения приложений
 │ ├── 📁 images/# Изображение 1 приложения
 │ ├── 📁 images_blog/# Изображение 2 приложения
+├── 📁 usesrs/ # Приложение Django
+│ ├── 📁 management/ # Пакет для кастомных команд
+│ │ ├── 📁 commands/ # Пакет для кастомных команд с самими командами
+│ │      ├── 📝 init .py # Пустой файл, обязательный для Python
+│ │      ├── 📝 csu.py # Кастомная команда cсоздания суперпользователя
+│ ├── 📁 migrations/
+│ ├── 📁 templates/ # Шаблоны HTML
+│ │ ├── 📊 loging.html
+│ │ ├── 📊 profile.html
+│ │ └── 📊 profile_edit.html
+│ │ └── 📊 register.html 
+├── 📝 init .py # Пустой файл, обязательный для Python
+│ ├── 📝 admin.py # Настройки админки Django
+│ ├── 📝 apps.py # Конфигурация приложения
+│ ├── 📝 models.py # Модели данных
+│ ├── 📝 tests.py # Тесты
+│ ├── 📝 urls.py # URL-маршруты приложения
+│ └── 📝 views.py # Вьюхи (представления)
 ```
 
 # 📝 Документация 
