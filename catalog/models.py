@@ -25,7 +25,10 @@ class Products(models.Model):
                                  null=True,
                                  blank=True)
     purchase_price = models.IntegerField(verbose_name='Цена за покупку')
-    owner = models.ForeignKey(User, on_delete = models.CASCADE, related_name='Продукт пользователя')
+    owner = models.ForeignKey(User,
+                              on_delete = models.CASCADE,
+                              related_name='owned_products',
+                              verbose_name='Продукт пользователя')
     is_published = models.BooleanField(
         default=False,
         verbose_name="Опубликовано",
