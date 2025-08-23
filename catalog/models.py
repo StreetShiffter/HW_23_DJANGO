@@ -22,6 +22,11 @@ class Products(models.Model):
                                  null=True,
                                  blank=True)
     purchase_price = models.IntegerField(verbose_name='Цена за покупку')
+    is_published = models.BooleanField(
+        default=False,
+        verbose_name="Опубликовано",
+        help_text="Указывает, опубликован ли товар на сайте. По умолчанию — не опубликован.",
+    )
     created_at = models.DateTimeField(auto_now_add=True, null=True)
     updated_at = models.DateTimeField(auto_now=True, null=True)
 
@@ -32,3 +37,6 @@ class Products(models.Model):
         verbose_name = 'Продукт'
         verbose_name_plural = 'Продукты'
         ordering = ['name', 'purchase_price']
+        permissions = [
+            ("can_unpublish_product", "Может отменять публикацию продукта"),
+        ]
