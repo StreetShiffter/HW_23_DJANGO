@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseBadRequest
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
@@ -20,7 +21,7 @@ class HomeListView(ListView):
         return context
 
 
-class ProductCreateView(CreateView):
+class ProductCreateView(LoginRequiredMixin, CreateView):
     model = Products
     form_class = ProductsForm
     # fields = '__all__' # спец метод для добавления всех полей разом
@@ -29,7 +30,7 @@ class ProductCreateView(CreateView):
         return reverse('catalog:product', kwargs={'pk': self.object.pk})
 
 
-class ProductUpdateView(UpdateView):
+class ProductUpdateView(LoginRequiredMixin, UpdateView):
     model = Products
     form_class = ProductsForm
 
@@ -37,7 +38,7 @@ class ProductUpdateView(UpdateView):
         return reverse('catalog:product', kwargs={'pk': self.object.pk})
 
 
-class ProductDeleteView(DeleteView):
+class ProductDeleteView(LoginRequiredMixin, DeleteView):
     model = Products
     template_name = 'catalog/product_confirm_delete.html'
     success_url = reverse_lazy('catalog:home')

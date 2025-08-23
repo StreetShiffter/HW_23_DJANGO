@@ -32,7 +32,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'catalog',
-    # 'users',
+    'users',
 ]
 
 MIDDLEWARE = [
@@ -125,17 +125,18 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-# AUTH_USER_MODEL = 'users.User'
+AUTH_USER_MODEL = 'users.User'# Указываем кастомную модель для уинтификации
 
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend' #Настройки почты
-# EMAIL_HOST = 'smtp.yandex.ru'
-# EMAIL_PORT = 465
-# EMAIL_USE_TLS = False
-# EMAIL_USE_SSL = True
-# EMAIL_HOST_USER = 'your_email@yandex.ru'
-# EMAIL_HOST_PASSWORD = 'your_app_password'
-# DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
-#
-# LOGIN_REDIRECT_URL = 'testapp:home'# Редирект после логирования(имя приложения и имя в url)
-# LOGOUT_REDIRECT_URL = ''# Редирект после выхода(имя приложения и имя в url )
-# LOGIN_URL = 'users:login'# Редирект на страницу регистрации, если вьюшка защищена миксином LoginRequiredMixin
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend' #Настройки почты
+EMAIL_HOST = 'smtp.yandex.ru'
+EMAIL_PORT = 465
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = True
+EMAIL_HOST_USER = os.getenv('MAIL_HOST')
+EMAIL_HOST_PASSWORD = os.getenv('MAIL_PASSWORD')
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+
+LOGIN_REDIRECT_URL = 'users:profile'# Редирект после логирования(имя приложения и имя в url)
+LOGOUT_REDIRECT_URL = 'catalog:home'# Редирект после выхода(имя приложения и имя в url )
+LOGIN_URL = 'users:register'# Редирект на страницу регистрации, если вьюшка защищена миксином LoginRequiredMixin

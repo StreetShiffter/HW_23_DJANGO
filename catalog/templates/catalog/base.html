@@ -10,7 +10,7 @@
 <body>
        {% include 'catalog/includes/inc_menu.html' %}
        {% block content %}{% endblock %}
-        
+
 
     <!--<script src="../js/bootstrap.bundle.min.js"></script>--><!--для локальной подгрузки стилей-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
@@ -21,7 +21,7 @@
         // Автоматическая инициализация всех элементов с data-bs-toggle="tooltip"
         const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
         if (tooltipTriggerList.length > 0) {
-            const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => 
+            const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl =>
                 new bootstrap.Tooltip(tooltipTriggerEl)
             );
         }

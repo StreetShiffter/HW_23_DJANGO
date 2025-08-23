@@ -1,0 +1,35 @@
+{% extends 'catalog/base.html' %}
+{% block title %}Профиль{% endblock %}
+
+{% include 'catalog/includes/inc_menu.html' %}
+
+{% block content %}
+
+<div class="card">
+    <div class="card-body text-center">  <!-- text-center для центрирования -->
+        <h3>Профиль пользователя {{ user.email }}</h3>
+        <p><strong>Почта:</strong> {{ user.email }}</p>
+
+        <!-- Круглая аватарка 200x200 -->
+        <div class="mb-3">
+            {% if user.image %}
+                <img src="{{ user.image.url }}"
+                     alt="Аватар"
+                     class="rounded-circle"
+                     style="width: 200px; height: 200px; object-fit: cover; object-position: center;">
+            {% else %}
+                <img src="/media/users/default.jpg"
+                     alt="Нет аватара"
+                     class="rounded-circle"
+                     style="width: 200px; height: 200px; object-fit: cover; object-position: center;">
+            {% endif %}
+        </div>
+
+        <p><strong>Страна:</strong> {{ user.country }}</p>
+        <p><strong>Номер телефона:</strong> {{ user.phone }}</p>
+
+        <a href="{% url 'users:profile_edit' %}" class="btn btn-warning">Редактировать</a>
+    </div>
+</div>
+
+{% endblock %}
