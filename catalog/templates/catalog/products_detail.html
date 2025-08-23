@@ -30,6 +30,7 @@
         </button>
 
         <!-- Редактировать -->
+        {% if user == product.owner or perms.catalog.delete_products %}
         <button class="btn btn-warning flex-fill"
                 onclick="window.location='{% url 'catalog:update' pk=product.pk %}'">
             Редактировать
@@ -40,6 +41,7 @@
                 onclick="window.location='{% url 'catalog:delete' pk=product.pk %}'">
             Удалить
         </button>
+        {% endif %}
 
         <!-- Купить -->
         <button type="button" class="btn btn-primary flex-fill"
