@@ -33,7 +33,7 @@ class Products(models.Model):
                               blank=True
                               )
     is_published = models.BooleanField(
-        default=False,
+        default=True,
         verbose_name="Опубликовано",
         help_text="Указывает, опубликован ли товар на сайте. По умолчанию — не опубликован.",
     )
