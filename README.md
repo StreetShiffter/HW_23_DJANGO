@@ -82,6 +82,7 @@ CTRL+С # Отключение сервера
 
 ![Главная страница](./image/home.jpg)
 ![Cтраница_контактов](./image/contacts.jpg)
+![Брокер кэширования redis](./screenshot/redis.jpg)
 
 ### Работа с правами:
 
