@@ -6,6 +6,27 @@ from django.views import View
 from django.urls import reverse, reverse_lazy
 from catalog.forms import ProductsForm
 from catalog.models import Products, Category
+from .services import get_products_by_category  # ← импорт из services.py
+
+class ProductsByCategoryView(ListView):
+    model = Products
+    context_object_name = 'products'
+    template_name = 'catalog/products_by_category.html'
+
+    def get_queryset(self):
+        self.category = Category.objects.get(pk=self.kwargs['category_id'])# ← получаем все id категорий
+        return get_products_by_category(self.category.id)# ← Получаем товары по категории
+
+    def get_context_data(self, **kwargs):
+        """
+        Добавляет в контекст:
+        - current_category: текущую категорию (для заголовка)
+        - categories: все категории (для отображения в меню)
+        """
+        context = super().get_context_data(**kwargs)
+        context['current_category'] = self.category
+        context['categories'] = Category.objects.exclude(id__isnull=True).all()
+        return context
 
 
 class HomeListView(ListView):
@@ -22,9 +43,8 @@ class HomeListView(ListView):
             return Products.objects.filter(is_published=True)  # остальные — только опубликованные
 
     def get_context_data(self, **kwargs):
-        '''Подгружаем данные с БД'''
         context = super().get_context_data(**kwargs)
-        context['category'] = Category.objects.all()
+        context['category'] = Category.objects.exclude(id__isnull=True).all()
         return context
 
 
@@ -105,10 +125,8 @@ class ProductDetailView(DetailView):
     context_object_name = 'product'
 
     def get_context_data(self, **kwargs):
-        '''Метод распаковки моделей'''
         context = super().get_context_data(**kwargs)
-        context['products'] = Products.objects.all()
-        context['category'] = Category.objects.all()
+        context['category'] = Category.objects.exclude(id__isnull=True).all()
         return context
 
 
@@ -127,3 +145,8 @@ class FeedbackView(View):
 
         # Обрабатываем и отвечаем
         return HttpResponse(f"Спасибо, {name}! Ваше сообщение получено.")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['category'] = Category.objects.exclude(id__isnull=True).all()
+        return context

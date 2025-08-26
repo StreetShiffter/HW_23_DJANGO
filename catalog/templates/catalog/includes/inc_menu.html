@@ -1,46 +1,89 @@
-<div class="d-flex">
-        <!-- Боковое меню -->
-        <div class="bg-dark text-white p-3" style="width: 250px; min-height: 100vh;">
-            <h4 class="mb-4">Меню</h4>
-            <ul class="nav flex-column">
-                <li class="nav-item">
-                 <!-- Добавление условия отображение динамически выделенного пункта -->
-                    <a class="nav-link active text-white {% if request.resolver_match.url_name == 'home' %}bg-danger{% endif %}" href={% url 'catalog:home' %}>Главная</a>
-                </li>
-                 <li class="nav-item">
-                    <a class="nav-link text-white {% if request.resolver_match.url_name == 'order' %}bg-danger{% endif %}" href="#">Заказы</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-white {% if request.resolver_match.url_name == 'category' %}bg-danger{% endif %}" href="#">Категории</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-white {% if request.resolver_match.url_name == 'contacts' %}bg-danger{% endif %}" href={% url 'catalog:contacts' %}>Контакты</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-white {% if request.resolver_match.url_name == 'create' %}bg-primary{% endif %}" href={% url 'catalog:create' %}>Создать</a>
-                </li>
-            </ul>
+<!-- catalog/includes/inc_menu.html -->
 
-            <div class="mt-auto">
-                <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle"
-                            type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Пользователь
-                    </button>
-                    <ul class="dropdown-menu">
-                        {% if user.is_authenticated %}
-                            <li><a class="dropdown-item" href="{% url 'users:profile'%}">Профиль</a></li>
+<div class="bg-dark text-white p-3" style="width: 250px; min-height: 100vh; position: fixed; top: 0; left: 0; z-index: 100;">
+    <h4 class="mb-4">Меню</h4>
+    <ul class="nav flex-column">
+
+        <!-- Главная -->
+        <li class="nav-item">
+            <a class="nav-link text-white {% if request.resolver_match.url_name == 'home' %}bg-danger{% endif %}"
+               href="{% url 'catalog:home' %}">
+                Главная
+            </a>
+        </li>
+
+        <!-- Заказы -->
+        <li class="nav-item">
+            <a class="nav-link text-white disabled" href="#">Заказы</a>
+        </li>
+
+        <!-- Категории с выпадающим списком -->
+        <li class="nav-item dropdown">
+            <a class="nav-link text-white dropdown-toggle"
+               href="#" role="button"
+               data-bs-toggle="dropdown"
+               aria-expanded="false">
+                Категории
+            </a>
+            <ul class="dropdown-menu">
+                {% if category %}
+                    {% for cat in category %}
+                        {% if cat.id %}
                             <li>
-                                <form method="post" action="{% url 'users:logout' %}">
-                                {% csrf_token %}
-                                    <button type="submit" class="dropdown-item">Выход</button>
-                                 </form>
+                                <a class="dropdown-item"
+                                   href="{% url 'catalog:products_by_category' category_id=cat.id %}">
+                                    {{ cat.name }}
+                                </a>
                             </li>
-                        {% else %}
-                            <li><a class="dropdown-item" href="{% url 'users:register'%}">Регистрация</a></li>
-                            <li><a class="dropdown-item" href="{% url 'users:loging'%}">Вход</a></li>
                         {% endif %}
-                    </ul>
-                </div>
-            </div>
+                    {% endfor %}
+                {% else %}
+                    <li><span class="dropdown-item text-muted">Нет категорий</span></li>
+                {% endif %}
+            </ul>
+        </li>
+
+        <!-- Контакты -->
+        <li class="nav-item">
+            <a class="nav-link text-white {% if request.resolver_match.url_name == 'contacts' %}bg-danger{% endif %}"
+               href="{% url 'catalog:contacts' %}">
+                Контакты
+            </a>
+        </li>
+
+        <!-- Создать -->
+        <li class="nav-item">
+            <a class="nav-link text-white {% if request.resolver_match.url_name == 'create' %}bg-primary{% endif %}"
+               href="{% url 'catalog:create' %}">
+                Создать товар
+            </a>
+        </li>
+
+    </ul>
+
+    <!-- Пользователь -->
+    <div class="mt-auto">
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle"
+                    type="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                Пользователь
+            </button>
+            <ul class="dropdown-menu">
+                {% if user.is_authenticated %}
+                    <li><a class="dropdown-item" href="{% url 'users:profile' %}">Профиль</a></li>
+                    <li>
+                        <form method="post" action="{% url 'users:logout' %}">
+                            {% csrf_token %}
+                            <button type="submit" class="dropdown-item">Выход</button>
+                        </form>
+                    </li>
+                {% else %}
+                    <li><a class="dropdown-item" href="{% url 'users:register' %}">Регистрация</a></li>
+                    <li><a class="dropdown-item" href="{% url 'users:login' %}">Вход</a></li>
+                {% endif %}
+            </ul>
         </div>
+    </div>
+</div>
