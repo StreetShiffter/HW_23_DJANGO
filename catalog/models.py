@@ -1,5 +1,8 @@
 from django.db import models
 
+from users.models import User
+
+
 class Category(models.Model):
     name = models.CharField(max_length=100, verbose_name='Наименование')
     description = models.TextField(max_length=300, verbose_name='Описание')
@@ -22,6 +25,18 @@ class Products(models.Model):
                                  null=True,
                                  blank=True)
     purchase_price = models.IntegerField(verbose_name='Цена за покупку')
+    owner = models.ForeignKey(User,
+                              on_delete = models.CASCADE,
+                              related_name='owned_products',
+                              verbose_name='Продукт пользователя',
+                              null=True, #Необязательное поле или все продукты достанутся одному пользователю
+                              blank=True
+                              )
+    is_published = models.BooleanField(
+        default=True,
+        verbose_name="Опубликовано",
+        help_text="Указывает, опубликован ли товар на сайте. По умолчанию — не опубликован.",
+    )
     created_at = models.DateTimeField(auto_now_add=True, null=True)
     updated_at = models.DateTimeField(auto_now=True, null=True)
 
@@ -32,3 +47,6 @@ class Products(models.Model):
         verbose_name = 'Продукт'
         verbose_name_plural = 'Продукты'
         ordering = ['name', 'purchase_price']
+        permissions = [
+            ("can_unpublish_product", "Может отменять публикацию продукта"),
+        ]

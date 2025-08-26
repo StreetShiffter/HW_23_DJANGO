@@ -1,22 +1,29 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseBadRequest
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.shortcuts import render, redirect
+from django.http import HttpResponse, HttpResponseForbidden
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
 from django.views import View
 from django.urls import reverse, reverse_lazy
-
 from catalog.forms import ProductsForm
 from catalog.models import Products, Category
+
 
 class HomeListView(ListView):
     '''Главная страница'''
     model = Products
-    context_object_name = 'product'
+    context_object_name = 'products'  # ← сейчас это object_list будет в 'product'
+    template_name = 'catalog/home.html'
+
+    def get_queryset(self):
+        """Фильтруем: только опубликованные для обычных, все — для модераторов"""
+        if self.request.user.has_perm('catalog.can_unpublish_product'):
+            return Products.objects.all()  # модератор видит всё
+        else:
+            return Products.objects.filter(is_published=True)  # остальные — только опубликованные
 
     def get_context_data(self, **kwargs):
-        '''Метод распаковки моделей'''
+        '''Подгружаем данные с БД'''
         context = super().get_context_data(**kwargs)
-        context['products'] = Products.objects.all()
         context['category'] = Category.objects.all()
         return context
 
@@ -24,24 +31,72 @@ class HomeListView(ListView):
 class ProductCreateView(LoginRequiredMixin, CreateView):
     model = Products
     form_class = ProductsForm
+
     # fields = '__all__' # спец метод для добавления всех полей разом
+
+    def form_valid(self, form):
+        # Устанавливаем владельца перед сохранением
+        # form.instance - объект формы не сохраненный в БД, .owner - поле с ForeginKey
+        form.instance.owner = self.request.user
+        return super().form_valid(form)  # Сохранение и редирект на get_success_url
 
     def get_success_url(self):
         return reverse('catalog:product', kwargs={'pk': self.object.pk})
 
 
-class ProductUpdateView(LoginRequiredMixin, UpdateView):
+class ProductUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Products
     form_class = ProductsForm
 
+    def test_func(self):
+        '''test_func - особый метод проверки UserPassesTestMixin'''
+        # Проверяем: пользователь — владелец ИЛИ имеет право на удаление
+        product = self.get_object()
+        user = self.request.user
+        return product.owner == user or user.has_perm('catalog.delete_products')
+
+    # Если нет прав — 403 Forbidden
+    raise_exception = True
+
     def get_success_url(self):
+        '''Перенаправление по запросу'''
         return reverse('catalog:product', kwargs={'pk': self.object.pk})
 
+    def post(self, request, *args, **kwargs):
+        '''Проверка post запроса на публикацию'''
+        self.object = self.get_object()
 
-class ProductDeleteView(LoginRequiredMixin, DeleteView):
+        # 🔥 Если пришёл POST с флагом toggle_publish — просто переключаем статус
+        if 'toggle_publish' in request.POST:
+            if not request.user.has_perm('catalog.can_unpublish_product'):
+                return HttpResponseForbidden("У вас нет прав на публикацию")
+
+            self.object.is_published = not self.object.is_published
+            self.object.save()
+            return redirect(self.get_success_url())
+
+        # ⬇️ Иначе — обычное поведение (редактирование формы)
+        return super().post(request, *args, **kwargs)
+
+
+class ProductDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    '''Удаляет продукт и проверяет право конкретного авторизированного пользователя через UserPassesTestMixin'''
     model = Products
     template_name = 'catalog/product_confirm_delete.html'
     success_url = reverse_lazy('catalog:home')
+
+    # # Указываем требуемое разрешение для проверки права у пользователя конкретного
+    # permission_required = 'catalog.delete_products'
+
+    def test_func(self):
+        '''test_func - особый метод проверки UserPassesTestMixin'''
+        # Проверяем: пользователь — владелец ИЛИ имеет право на удаление
+        product = self.get_object()
+        user = self.request.user
+        return product.owner == user or user.has_perm('catalog.delete_products')
+
+    # Если нет прав — 403 Forbidden
+    raise_exception = True
 
 
 class ProductDetailView(DetailView):
@@ -58,7 +113,7 @@ class ProductDetailView(DetailView):
 
 
 class FeedbackView(View):
-    template_name = 'catalog/contacts.html'# Нужно прописать genm, т.к. нету действия view.
+    template_name = 'catalog/contacts.html'  # Нужно прописать genm, т.к. нету действия view.
 
     def get(self, request):
         # При GET-запросе просто показываем шаблон
@@ -72,5 +127,3 @@ class FeedbackView(View):
 
         # Обрабатываем и отвечаем
         return HttpResponse(f"Спасибо, {name}! Ваше сообщение получено.")
-
-

@@ -1,0 +1,25 @@
+﻿[
+{
+  "model": "auth.group",
+  "pk": 1,
+  "fields": {
+    "name": "╠юфхЁрЄюЁ яЁюфєъЄют",
+    "permissions": [
+      33,
+      27
+    ]
+  }
+},
+{
+  "model": "auth.group",
+  "pk": 2,
+  "fields": {
+    "name": "╧юы№чютрЄхы№",
+    "permissions": [
+      24,
+      28,
+      16
+    ]
+  }
+}
+]
