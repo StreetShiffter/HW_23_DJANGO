@@ -1,0 +1,55 @@
+{% extends 'catalog/base.html' %}
+
+{% block title %}{{ category.name }}{% endblock %}
+
+{% block menu %}
+    {% include 'catalog/includes/inc_menu.html' %}
+{% endblock %}
+
+{% block content %}
+    <h1>Категория: {{ current_category.name }}</h1>
+
+    {% if products %}
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            {% for product in products %}
+                <div class="col">
+                    <div class="card h-100">
+                        <!-- Изображение -->
+                        {% if product.image %}
+                            <img src="{{ product.image.url }}"
+                                 alt="{{ product.name }}"
+                                 class="card-img-top"
+                                 style="height: 250px; object-fit: cover;">
+                        {% else %}
+                            <img src="https://via.placeholder.com/300x250?text=Нет+фото"
+                                 alt="Нет изображения"
+                                 class="card-img-top"
+                                 style="height: 250px; object-fit: cover;">
+                        {% endif %}
+
+                        <!-- Тело карточки -->
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">{{ product.name }}</h5>
+                            <p class="card-text flex-grow-1" style="overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;">
+                                {{ product.description }}
+                            </p>
+                            <p class="card-text"><strong>{{ product.purchase_price }} ₽</strong></p>
+                        </div>
+
+                        <!-- Кнопка (опционально) -->
+                        <div class="card-footer">
+                            <a href="{% url 'catalog:product' pk=product.pk %}" class="btn btn-sm btn-outline-primary w-100">
+                                Подробнее
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>В этой категории пока нет товаров.</p>
+    {% endif %}
+
+    <hr class="my-4">
+    <a href="{% url 'catalog:home' %}" class="btn btn-outline-secondary btn-sm">← Назад к главной</a>
+{% endblock %}

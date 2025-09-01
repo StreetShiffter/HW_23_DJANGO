@@ -6,6 +6,30 @@ from django.views import View
 from django.urls import reverse, reverse_lazy
 from catalog.forms import ProductsForm
 from catalog.models import Products, Category
+from .services import get_products_by_category  # ← импорт из services.py
+from django.views.decorators.cache import cache_page
+from django.utils.decorators import method_decorator
+from django.core.cache import cache
+
+class ProductsByCategoryView(ListView):
+    model = Products
+    context_object_name = 'products'
+    template_name = 'catalog/products_by_category.html'
+
+    def get_queryset(self):
+        self.category = Category.objects.get(pk=self.kwargs['category_id'])# ← получаем все id категорий
+        return get_products_by_category(self.category.id)# ← Получаем товары по категории
+
+    def get_context_data(self, **kwargs):
+        """
+        Добавляет в контекст:
+        - current_category: текущую категорию (для заголовка)
+        - category: все категории (для отображения в меню)
+        """
+        context = super().get_context_data(**kwargs)
+        context['current_category'] = self.category
+        context['category'] = Category.objects.exclude(id__isnull=True).all()
+        return context
 
 
 class HomeListView(ListView):
@@ -14,17 +38,23 @@ class HomeListView(ListView):
     context_object_name = 'products'  # ← сейчас это object_list будет в 'product'
     template_name = 'catalog/home.html'
 
+
+#Для низкоуровневого кэширования по времени(lambda - проверка есть кэш или пуст. Если пуст, то делает запрос.)
     def get_queryset(self):
-        """Фильтруем: только опубликованные для обычных, все — для модераторов"""
-        if self.request.user.has_perm('catalog.can_unpublish_product'):
-            return Products.objects.all()  # модератор видит всё
+        '''Достаем данные из БД и кэшируем'''
+        if self.request.user.is_authenticated and self.request.user.has_perm('catalog.can_unpublish_product'):
+            cache_key = 'home_view_all_products'# Ключ кэша
+            queryset = Products.objects.all()# модератор видит всё (объект кэша)
         else:
-            return Products.objects.filter(is_published=True)  # остальные — только опубликованные
+            cache_key = 'home_view_published_only'
+            queryset = Products.objects.filter(is_published=True)# остальные — только опубликованные
+
+        return cache.get_or_set(cache_key, queryset, 60)#метод(ключ, объект, время в секундах)
 
     def get_context_data(self, **kwargs):
-        '''Подгружаем данные с БД'''
+        '''Отображение данных в шаблоне'''
         context = super().get_context_data(**kwargs)
-        context['category'] = Category.objects.all()
+        context['category'] = cache.get_or_set('category_list',lambda: Category.objects.exclude(id__isnull=True),60)
         return context
 
 
@@ -98,17 +128,15 @@ class ProductDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     # Если нет прав — 403 Forbidden
     raise_exception = True
 
-
+# @method_decorator(cache_page(60 * 15), name='dispatch') - кэширование страницы через контроллер
 class ProductDetailView(DetailView):
     '''Загрузка страницы с конкретным продуктом по первичному ключу'''
     model = Products
     context_object_name = 'product'
 
     def get_context_data(self, **kwargs):
-        '''Метод распаковки моделей'''
         context = super().get_context_data(**kwargs)
-        context['products'] = Products.objects.all()
-        context['category'] = Category.objects.all()
+        context['category'] = Category.objects.exclude(id__isnull=True).all()
         return context
 
 
@@ -127,3 +155,8 @@ class FeedbackView(View):
 
         # Обрабатываем и отвечаем
         return HttpResponse(f"Спасибо, {name}! Ваше сообщение получено.")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['category'] = Category.objects.exclude(id__isnull=True).all()
+        return context

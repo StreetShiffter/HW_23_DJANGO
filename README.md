@@ -63,6 +63,16 @@ python manage.py add_test_product # запуск кастомной функци
 
 ```
 
+Проверка работоспособности redis брокера кэширования через shell
+```
+from django.core.cache import cache
+
+# Попробуем записать и прочитать из кэша
+cache.set('test_key', 'работает!', 30)  # сохраняем на 30 секунд
+result = cache.get('test_key')
+print(result)  # Должно вывести: работает!
+```
+
 ⚠️ ВАЖНО ⚠️
 ```
 python manage.py runserver 8080 # Запуск сервера
@@ -72,6 +82,7 @@ CTRL+С # Отключение сервера
 
 ![Главная страница](./image/home.jpg)
 ![Cтраница_контактов](./image/contacts.jpg)
+![Брокер кэширования redis](./screenshot/redis.jpg)
 
 ### Работа с правами:
 
